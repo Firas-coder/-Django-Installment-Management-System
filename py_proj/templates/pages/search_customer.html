@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Customers{% endblock %}
+
+{% block content %}
+    <h2>Search Customers</h2>
+    <form method="get">
+        <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if customers %}
+        <h3>Search Results:</h3>
+        <ul>
+            {% for customer in customers %}
+                <li>{{ customer.name }} - {{ customer.phone }}</li>
+            {% endfor %}
+        </ul>
+    {% elif request.GET.q %}
+        <p>No customers found matching "{{ request.GET.q }}".</p>
+    {% endif %}
+
+<table class="table table-bordered text-center" >
+  <thead>
+    <thead class="table-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Customer Name</th>
+      <th scope="col">Customer Phone</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Print Receipt</th>
+    </tr>
+    </thead>
+  </thead>
+  <tbody>
+    {% for customer in customers %}
+    <thead class="table-light">
+    <tr>
+      <th scope="row">{{customer.id}}</th>
+      <td>{{customer.name}}</td>
+      <td>{{customer.phone}}</td>
+      <td><a href="{% url 'edit_customer' customer.id %}" class="btn btn-sm btn-outline-primary">Edit</a></td>
+      <td><a href="{% url 'print_receipt' customer.id %}" class="btn btn-sm btn-outline-success">Print Receipt</a></td>
+    </tr>
+    </thead>
+    {%endfor%}
+  </tbody>
+</table>
+<a href="{% url 'add_customer' %}">Add New Customer</a>
+{% endblock %}

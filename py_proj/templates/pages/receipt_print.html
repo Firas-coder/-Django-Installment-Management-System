@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Receipt{% endblock %}
+
+{% block content %}
+    <title>Receipt - {{ customer.name }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body>
+
+    <h1>Customer Receipt</h1>
+
+    <div class="info">
+        <p><b>Customer Name:</b> {{ customer.name }}</p>
+        <p><b>Date:</b> {{ customer.paid_date }}</p>
+    </div>
+
+    <table>
+        <tr>
+            <td>Total</td>
+            <td>{{ customer.Total }}</td>
+        </tr>
+        <tr>
+            <td>Paid</td>
+            <td>{{ customer.Paid }}</td>
+        </tr>
+        <tr>
+            <td>Remaining</td>
+            <td>{{ customer.Remaining }}</td>
+        </tr>
+    </table>
+
+    <br>
+    <button class="no-print" onclick="window.print()">🖨️ Print</button>
+    <script>
+        window.onload = function() {
+            window.print();
+        };
+    </script>
+
+</body>
+<br>
+<a href="{% url 'search_customer' %}">Back to Search</a>
+<a href="{% url 'edit_customer' customer.id %}">Edit Customer</a>
+<a href="{% url 'add_customer' %}">Add New Customer</a>
+{% endblock %}
